@@ -1,0 +1,8 @@
+<svg width="194" height="40" viewBox="0 0 194 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- GAS text - orange at 50% opacity -->
+  <text x="0" y="30" font-family="'Albert Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="30" font-weight="900" letter-spacing="-0.05em" fill="#FF462E" fill-opacity="0.5">GAS</text>
+  <!-- STUDI text - white -->
+  <text x="62" y="30" font-family="'Albert Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="30" font-weight="900" letter-spacing="-0.05em" fill="#FFFFFF">STUDI</text>
+  <!-- Orange circle (the O) - vertically aligned with text cap-height center -->
+  <circle cx="170" cy="19" r="12" fill="#FF462E"/>
+</svg>
