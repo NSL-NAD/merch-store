@@ -12,6 +12,7 @@ interface AddToCartProps {
   needsSelection: boolean;
   hasSizes: boolean;
   selectedColor?: string | null;
+  activeImage?: { url: string; altText?: string | null };
 }
 
 export default function AddToCart({
@@ -20,6 +21,7 @@ export default function AddToCart({
   needsSelection,
   hasSizes,
   selectedColor,
+  activeImage,
 }: AddToCartProps) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
@@ -41,8 +43,8 @@ export default function AddToCart({
       handle: product.handle,
       price: variant.price,
       quantity: 1,
-      image: product.images[0]?.url,
-      imageAlt: product.images[0]?.altText || product.title,
+      image: activeImage?.url || product.images[0]?.url,
+      imageAlt: activeImage?.altText || product.images[0]?.altText || product.title,
       size,
       color,
     });

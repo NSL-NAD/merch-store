@@ -305,6 +305,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             needsSelection={needsSelection}
             hasSizes={hasSizes}
             selectedColor={selectedColor}
+            activeImage={
+              activeImageIndex !== undefined
+                ? product.images[activeImageIndex]
+                : undefined
+            }
           />
 
           {/* Accordions */}
