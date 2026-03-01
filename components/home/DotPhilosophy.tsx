@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function DotPhilosophy() {
   return (
     <section className="bg-bg-primary py-16 md:py-24 border-b border-border-default">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Section header */}
         <motion.p
           initial={{ opacity: 0 }}

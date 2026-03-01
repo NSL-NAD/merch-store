@@ -44,7 +44,7 @@ export default function BrandStory({ tab }: BrandStoryProps) {
 
   return (
     <section className="bg-bg-primary py-16 md:py-24 border-t border-border-default">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}

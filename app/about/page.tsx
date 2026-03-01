@@ -4,13 +4,13 @@ import { GAS_STUDIO_URL } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "GAS Merch Lab is a venture by GAS Studio — premium graphic tees and art posters celebrating cultures from 12 countries.",
+    "GAS Merch Lab is a venture by GAS Studio — premium apparel and art posters celebrating purpose-driven design and cultures from 12 countries.",
 };
 
 export default function AboutPage() {
   return (
     <div className="pt-24 pb-16 md:pb-24">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-12 md:gap-16">
           {/* Left — metadata */}
           <div className="space-y-10">
@@ -33,7 +33,18 @@ export default function AboutPage() {
                 Focus
               </p>
               <p className="font-body text-text-secondary">
-                Country-inspired graphic tees & art posters
+                Purpose-driven apparel & country-inspired art
+              </p>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-gas-orange mb-2">
+                Collections
+              </p>
+              <p className="font-body text-text-secondary">
+                The Dot Collection &mdash; Tees, Sweatshirts, Beanies & Socks
+              </p>
+              <p className="font-body text-text-secondary mt-1">
+                The Country Collection &mdash; 12 Countries, Tees & Posters (Coming Soon)
               </p>
             </div>
             <div>
@@ -41,8 +52,7 @@ export default function AboutPage() {
                 Philosophy
               </p>
               <p className="font-body text-text-secondary">
-                Wearable art that celebrates some of the world&apos;s most
-                inspiring places and cultures.
+                Wearable art driven by purpose. Every dot means something.
               </p>
             </div>
           </div>
@@ -57,23 +67,42 @@ export default function AboutPage() {
 
             <div className="space-y-5 font-body text-text-secondary leading-relaxed">
               <p>
-                GAS Merch Lab started with a question: what if the places that
-                inspire us could become part of our everyday? Not as souvenirs
-                on a shelf, but as art you wear and display — pieces that
-                spark conversations and carry stories.
+                GAS Merch Lab started with a question: what if the things that
+                drive us could become part of our everyday? Not just words on a
+                wall, but art you wear and display &mdash; pieces that spark
+                conversations and carry meaning.
+              </p>
+
+              <p className="font-display text-lg uppercase tracking-wider text-text-primary">
+                The Dot Collection
               </p>
               <p>
-                Our launch collection features 12 countries, each brought to
-                life through bold, illustrative design. From the neon-lit
-                streets of Tokyo to the sun-bleached walls of Santorini, every
-                piece captures the essence of a place — its people,
-                traditions, landscape, and spirit.
+                Our flagship collection is built around the GAS dot &mdash; a
+                symbol of purpose and completion. The single dot represents
+                finishing what you start. The triple dot is a reminder that
+                there&apos;s always more good to be done. Each piece in the
+                collection carries one of these marks: premium faded wash tees,
+                heavyweight embroidered sweatshirts, cuffed knit beanies, and
+                mid-length crew socks.
+              </p>
+
+              <p className="font-display text-lg uppercase tracking-wider text-text-primary">
+                The Country Collection
               </p>
               <p>
-                Every tee is printed on premium AS Colour Staple Faded Tee blanks.
-                Every poster is produced on museum-quality matte paper. We
-                partner with best-in-class print-on-demand to deliver quality
-                without waste.
+                Coming soon &mdash; 12 countries, each brought to life through
+                bold, illustrative design. From the neon-lit streets of Tokyo to
+                the sun-bleached walls of Santorini, every piece captures the
+                essence of a place &mdash; its people, traditions, landscape,
+                and spirit. Available as graphic tees and museum-quality art
+                posters.
+              </p>
+
+              <p>
+                Every tee is printed on premium AS Colour blanks. Every
+                sweatshirt is a heavyweight 350 GSM cotton blend with
+                embroidered details. We partner with best-in-class
+                print-on-demand to deliver quality without waste.
               </p>
             </div>
 
@@ -86,17 +115,17 @@ export default function AboutPage() {
                 </h3>
               </div>
               <p className="font-body text-sm text-text-secondary leading-relaxed">
-                The GAS Studio orange dot appears on every tee as our brand
-                mark — a small, embroidered emblem that connects every piece
-                back to the studio. It&apos;s a signature of quality and
-                intentional design.
+                The GAS Studio orange dot appears on every product as our brand
+                mark &mdash; printed on tees and socks, embroidered on
+                sweatshirts and beanies. It&apos;s a signature of quality and
+                intentional design that connects every piece back to the studio.
               </p>
             </div>
 
             {/* GAS Studio link */}
             <div className="mt-8">
               <p className="font-body text-text-secondary mb-3">
-                GAS Merch Lab is a venture by GAS Studio — we build purpose-driven
+                GAS Merch Lab is a venture by GAS Studio &mdash; we build purpose-driven
                 businesses powered by systems, automation, and AI.
               </p>
               <a

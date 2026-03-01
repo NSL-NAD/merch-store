@@ -37,10 +37,15 @@
   --font-mono: var(--font-jetbrains-mono);
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: hidden;
 }
 
 /* Display headings use Albert Sans Black (900) */

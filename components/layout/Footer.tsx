@@ -4,7 +4,7 @@ import { GAS_STUDIO_URL } from "@/lib/constants";
 export default function Footer() {
   return (
     <footer className="border-t border-border-default bg-bg-primary">
-      <div className="mx-auto max-w-7xl px-6 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           {/* Brand */}
           <div className="flex items-center gap-2">
@@ -55,7 +55,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border-default flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="font-mono text-xs text-text-muted">
             &copy; {new Date().getFullYear()} GAS Studio. All rights reserved.
           </p>

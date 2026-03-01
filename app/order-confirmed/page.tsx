@@ -16,7 +16,7 @@ export default function OrderConfirmedPage() {
 
   return (
     <div className="pt-24 pb-16 md:pb-24 min-h-screen flex items-center">
-      <div className="mx-auto max-w-lg px-6 text-center">
+      <div className="mx-auto max-w-lg px-4 sm:px-6 text-center">
         {/* Icon */}
         <div className="flex justify-center mb-6">
           <div className="h-16 w-16 rounded-full bg-gas-orange/10 flex items-center justify-center">

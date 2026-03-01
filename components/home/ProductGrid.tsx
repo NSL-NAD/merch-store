@@ -46,7 +46,7 @@ export default function ProductGrid({
 
   return (
     <section id="products" className="bg-bg-primary py-16 md:py-24">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Section heading */}
         <h2 className="font-display text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight mb-8">
           {tab === "shop" ? "The Dot Collection" : "Coming Soon"}

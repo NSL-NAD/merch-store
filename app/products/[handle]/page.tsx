@@ -45,7 +45,7 @@ export default async function ProductPage({
   if (!product) notFound();
 
   return (
-    <div className="mx-auto max-w-7xl px-6">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6">
       <ProductDetail product={product} />
       <RelatedProducts products={allProducts} currentHandle={handle} />
     </div>

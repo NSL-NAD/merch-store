@@ -219,10 +219,24 @@ export async function sendOrderConfirmation({
 </body>
 </html>`;
 
+  const fromEmail = process.env.RESEND_FROM_EMAIL || "merch@goodatscale.co";
+  const internalEmail = "merch@goodatscale.co";
+
+  // Send confirmation to customer
   await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || "merch@goodatscale.co",
+    from: fromEmail,
     to: email,
     subject: `Order Confirmed — GAS Merch Lab #${orderNumber}`,
     html,
   });
+
+  // Send internal copy to team (only if customer email differs)
+  if (email.toLowerCase() !== internalEmail.toLowerCase()) {
+    await resend.emails.send({
+      from: fromEmail,
+      to: internalEmail,
+      subject: `[New Order] #${orderNumber} — ${name} — $${total.toFixed(2)}`,
+      html,
+    });
+  }
 }

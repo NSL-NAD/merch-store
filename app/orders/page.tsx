@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function OrdersPage() {
   return (
     <div className="pt-24 pb-16 md:pb-24">
-      <div className="mx-auto max-w-3xl px-6">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl uppercase tracking-tight mb-4">
           Track Your Order
         </h1>

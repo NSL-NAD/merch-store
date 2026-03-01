@@ -24,19 +24,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+
     // Build Stripe line items
     const lineItems = items.map((item) => {
       const optionParts = [item.color, item.size].filter(Boolean);
       const nameSuffix = optionParts.length > 0 ? ` — ${optionParts.join(" / ")}` : "";
+
+      // Stripe requires absolute URLs for product images
+      let imageUrl: string | undefined;
+      if (item.image && !item.image.startsWith("data:")) {
+        imageUrl = item.image.startsWith("http")
+          ? item.image
+          : `${siteUrl}${item.image}`;
+      }
+
       return {
         price_data: {
           currency: "usd",
           unit_amount: Math.round(parseFloat(item.price.amount) * 100),
           product_data: {
             name: `${item.productTitle}${nameSuffix}`,
-            ...(item.image && !item.image.startsWith("data:")
-              ? { images: [item.image] }
-              : {}),
+            ...(imageUrl ? { images: [imageUrl] } : {}),
           },
         },
         quantity: item.quantity,

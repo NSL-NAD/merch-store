@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductImages from "./ProductImages";
@@ -181,23 +181,49 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       return null;
     });
 
-  // Handle color change
-  function handleColorChange(color: string) {
-    setSelectedColor(color);
-
-    if (!hasSizes) {
-      // For color-only products (beanie), directly select the variant
-      const variant = product.variants.find((v) =>
-        v.selectedOptions.some(
-          (o) => o.name === "Color" && o.value === color
-        )
+  // Map color names to the index of their first "brick" image
+  const colorImageIndex = useMemo(() => {
+    const map: Record<string, number> = {};
+    for (const color of availableColors) {
+      const idx = product.images.findIndex(
+        (img) =>
+          img.altText?.includes(color) && img.altText?.includes("brick")
       );
-      setSelectedVariant(variant || null);
-    } else {
-      // For color+size products, reset size selection
-      setSelectedVariant(null);
+      if (idx !== -1) map[color] = idx;
     }
-  }
+    return map;
+  }, [product.images, availableColors]);
+
+  // Track which image to show when a color is selected
+  const [activeImageIndex, setActiveImageIndex] = useState<number | undefined>(
+    () => (hasColors && availableColors[0] ? colorImageIndex[availableColors[0]] : undefined)
+  );
+
+  // Handle color change
+  const handleColorChange = useCallback(
+    (color: string) => {
+      setSelectedColor(color);
+
+      // Jump to brick image for this color
+      if (colorImageIndex[color] !== undefined) {
+        setActiveImageIndex(colorImageIndex[color]);
+      }
+
+      if (!hasSizes) {
+        // For color-only products (beanie), directly select the variant
+        const variant = product.variants.find((v) =>
+          v.selectedOptions.some(
+            (o) => o.name === "Color" && o.value === color
+          )
+        );
+        setSelectedVariant(variant || null);
+      } else {
+        // For color+size products, reset size selection
+        setSelectedVariant(null);
+      }
+    },
+    [colorImageIndex, hasSizes, product.variants]
+  );
 
   const displayName = product.title
     .replace(/ (Tee|Poster|Sweatshirt|Beanie|Socks)$/i, "")
@@ -219,77 +245,78 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <div className="pt-24 pb-16 md:pb-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 lg:gap-16">
-          {/* Left: Images */}
+      <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 lg:gap-16">
+        {/* Left: Images */}
+        <div className="min-w-0">
           <ProductImages
             images={product.images}
             productTitle={product.title}
+            activeIndex={activeImageIndex}
+          />
+        </div>
+
+        {/* Right: Info */}
+        <div className="min-w-0 md:sticky md:top-24 md:self-start space-y-6">
+          {/* Collection badge */}
+          <Badge variant="orange">
+            {collectionLabel}
+          </Badge>
+
+          {/* Title */}
+          <h1 className="font-display text-4xl sm:text-5xl uppercase tracking-tight">
+            {displayName}
+          </h1>
+
+          {/* Story */}
+          <p className="font-body text-text-secondary leading-relaxed">
+            {designStory}
+          </p>
+
+          {/* Color selector */}
+          {hasColors && (
+            <ColorSelector
+              colors={availableColors}
+              selectedColor={selectedColor}
+              onColorChange={handleColorChange}
+            />
+          )}
+
+          {/* Size selector */}
+          {hasSizes && (
+            <div className="space-y-3">
+              <SizeSelector
+                variants={filteredVariants}
+                selectedVariant={selectedVariant}
+                onVariantChange={setSelectedVariant}
+              />
+              <SizeGuide />
+            </div>
+          )}
+
+          {/* Price */}
+          <p className="font-mono text-2xl font-semibold">
+            {formatPrice(displayPrice.amount, displayPrice.currencyCode)}
+          </p>
+
+          {/* Add to cart */}
+          <AddToCart
+            product={product}
+            selectedVariant={selectedVariant}
+            needsSelection={needsSelection}
+            hasSizes={hasSizes}
+            selectedColor={selectedColor}
           />
 
-          {/* Right: Info */}
-          <div className="md:sticky md:top-24 md:self-start space-y-6">
-            {/* Collection badge */}
-            <Badge variant="orange">
-              {collectionLabel}
-            </Badge>
-
-            {/* Title */}
-            <h1 className="font-display text-4xl sm:text-5xl uppercase tracking-tight">
-              {displayName}
-            </h1>
-
-            {/* Story */}
-            <p className="font-body text-text-secondary leading-relaxed">
-              {designStory}
-            </p>
-
-            {/* Color selector */}
-            {hasColors && (
-              <ColorSelector
-                colors={availableColors}
-                selectedColor={selectedColor}
-                onColorChange={handleColorChange}
+          {/* Accordions */}
+          <div className="pt-4">
+            <Accordion title="Product Details" items={details} />
+            <Accordion title="Shipping Info" items={SHIPPING_INFO} />
+            {isWearable && (
+              <Accordion
+                title="Care Instructions"
+                items={CARE_INSTRUCTIONS}
               />
             )}
-
-            {/* Size selector */}
-            {hasSizes && (
-              <div className="space-y-3">
-                <SizeSelector
-                  variants={filteredVariants}
-                  selectedVariant={selectedVariant}
-                  onVariantChange={setSelectedVariant}
-                />
-                <SizeGuide />
-              </div>
-            )}
-
-            {/* Price */}
-            <p className="font-mono text-2xl font-semibold">
-              {formatPrice(displayPrice.amount, displayPrice.currencyCode)}
-            </p>
-
-            {/* Add to cart */}
-            <AddToCart
-              product={product}
-              selectedVariant={selectedVariant}
-              needsSelection={needsSelection}
-              hasSizes={hasSizes}
-              selectedColor={selectedColor}
-            />
-
-            {/* Accordions */}
-            <div className="pt-4">
-              <Accordion title="Product Details" items={details} />
-              <Accordion title="Shipping Info" items={SHIPPING_INFO} />
-              {isWearable && (
-                <Accordion
-                  title="Care Instructions"
-                  items={CARE_INSTRUCTIONS}
-                />
-              )}
-            </div>
           </div>
         </div>
       </div>

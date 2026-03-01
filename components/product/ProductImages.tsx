@@ -1,18 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ShopifyImage } from "@/lib/shopify/types";
 
 interface ProductImagesProps {
   images: ShopifyImage[];
   productTitle: string;
+  /** Externally controlled image index (e.g. when color changes) */
+  activeIndex?: number;
 }
 
 export default function ProductImages({
   images,
   productTitle,
+  activeIndex,
 }: ProductImagesProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Sync with external activeIndex when it changes
+  useEffect(() => {
+    if (activeIndex !== undefined && activeIndex !== selectedIndex) {
+      setSelectedIndex(activeIndex);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex]);
+
   const current = images[selectedIndex];
 
   return (
@@ -36,12 +48,12 @@ export default function ProductImages({
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => setSelectedIndex(i)}
-              className={`flex-shrink-0 h-16 w-16 rounded-sm overflow-hidden border-2 transition-colors cursor-pointer ${
+              className={`flex-shrink-0 h-14 w-14 sm:h-16 sm:w-16 rounded-sm overflow-hidden border-2 transition-colors cursor-pointer ${
                 selectedIndex === i
                   ? "border-gas-orange"
                   : "border-border-default hover:border-border-hover"

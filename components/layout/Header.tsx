@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-border-default">
-      <div className="relative mx-auto max-w-[1600px] px-8 flex items-center justify-between h-16">
+      <div className="relative mx-auto max-w-[1600px] px-4 sm:px-6 md:px-8 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <img
@@ -89,7 +89,7 @@ export default function Header() {
             transition={{ duration: 0.2 }}
             className="md:hidden overflow-hidden border-b border-border-default bg-bg-primary"
           >
-            <nav className="px-6 py-4 flex flex-col gap-4">
+            <nav className="px-4 sm:px-6 py-4 flex flex-col gap-4">
               <Link
                 href="/#products"
                 onClick={() => setMobileMenuOpen(false)}
