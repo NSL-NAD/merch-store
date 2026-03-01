@@ -68,27 +68,25 @@ export async function POST(request: NextRequest) {
       (session.metadata as Record<string, string>) || {}
     );
 
-    // Retrieve full session for line items
+    // Retrieve full session for line items and shipping details
+    // The webhook event payload may omit shipping_details, so we
+    // always pull the canonical session from the Stripe API.
     const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
       expand: ["line_items"],
     });
 
-    const customerEmail = session.customer_details?.email || "";
-    const customerName = session.customer_details?.name || "";
-    // shipping_details is present when shipping_address_collection is used
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const shippingDetails = (session as any).shipping_details as {
-      name?: string;
-      address?: {
-        line1?: string;
-        line2?: string | null;
-        city?: string;
-        state?: string;
-        postal_code?: string;
-        country?: string;
-      };
-    } | null;
-    const totalCents = session.amount_total || 0;
+    const customerEmail =
+      fullSession.customer_details?.email ||
+      session.customer_details?.email ||
+      "";
+    const customerName =
+      fullSession.customer_details?.name ||
+      session.customer_details?.name ||
+      "";
+    // Stripe SDK v20+ moved shipping to collected_information.shipping_details
+    const shippingDetails =
+      fullSession.collected_information?.shipping_details ?? null;
+    const totalCents = fullSession.amount_total || session.amount_total || 0;
 
     // Build line items for storage
     const lineItemsForDb = cartItems.map((item) => ({

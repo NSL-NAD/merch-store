@@ -120,6 +120,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = useCallback(() => {
     setCart([]);
+    try {
+      localStorage.removeItem(CART_STORAGE_KEY);
+    } catch {
+      // Silently fail
+    }
   }, []);
 
   const checkout = useCallback(async () => {

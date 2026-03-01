@@ -9,12 +9,12 @@ interface OrderConfirmationParams {
   items: { title: string; quantity: number; price: number }[];
   total: number;
   shippingAddress: {
-    line1?: string;
+    line1?: string | null;
     line2?: string | null;
-    city?: string;
-    state?: string;
-    postal_code?: string;
-    country?: string;
+    city?: string | null;
+    state?: string | null;
+    postal_code?: string | null;
+    country?: string | null;
   } | null | undefined;
 }
 
