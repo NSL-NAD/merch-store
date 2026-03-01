@@ -21,14 +21,14 @@ export const COUNTRIES = [
 
 export const TEE_SIZES = ["S", "M", "L", "XL", "2XL"] as const;
 
-export const TEE_PRICE = "45.00";
+export const TEE_PRICE = "47.00";
 export const POSTER_PRICE = "35.00";
 
 // GAS Dot Collection — launch products
-export const GAS_TEE_PRICE = "45.00";
-export const GAS_SWEATSHIRT_PRICE = "75.00";
-export const GAS_BEANIE_PRICE = "30.00";
-export const GAS_SOCKS_PRICE = "25.00";
+export const GAS_TEE_PRICE = "47.00";
+export const GAS_SWEATSHIRT_PRICE = "77.00";
+export const GAS_BEANIE_PRICE = "37.00";
+export const GAS_SOCKS_PRICE = "27.00";
 
 export interface ProductColor {
   name: string;
@@ -60,8 +60,8 @@ export const GAS_PRODUCTS = [
     sizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
     colors: [
       { name: "Black", slug: "black" },
-      { name: "Bone", slug: "bone" },
       { name: "Cypress", slug: "cypress" },
+      { name: "Bone", slug: "bone" },
     ] as ProductColor[],
     description:
       "A heavyweight hoodie with an embroidered GAS single dot — a symbol of completion. Start what you finish. Execute with intention.",
@@ -74,8 +74,8 @@ export const GAS_PRODUCTS = [
     price: GAS_BEANIE_PRICE,
     sizes: ["One Size"],
     colors: [
-      { name: "Army", slug: "army" },
       { name: "Black", slug: "black" },
+      { name: "Army", slug: "army" },
       { name: "Coal", slug: "coal" },
       { name: "Cypress", slug: "cypress" },
       { name: "Ecru", slug: "ecru" },
@@ -110,14 +110,34 @@ export const SIZE_CHART = [
 
 export const FAQ_ITEMS = [
   {
-    question: "What are the shirts made of?",
+    question: "What collections do you offer?",
     answer:
-      "Our tees are printed on AS Colour Staple Faded Tee blanks — a premium, relaxed-fit unisex tee made from 100% combed cotton. The faded wash gives each shirt a unique, slightly worn-in look right out of the box.",
+      "We currently have two collections. The Dot Collection is our flagship line — featuring tees, sweatshirts, beanies, and socks, each carrying the GAS dot symbol. The Country Collection (coming soon) will feature graphic tees and museum-quality art posters inspired by 12 countries from around the world.",
+  },
+  {
+    question: "What are the tees made of?",
+    answer:
+      "Our tees are printed on AS Colour Staple Faded Tee blanks — a premium, relaxed-fit unisex tee made from 100% combed cotton. The faded wash gives each shirt a unique, slightly worn-in look right out of the box. The design is DTG (direct-to-garment) printed.",
+  },
+  {
+    question: "What about the sweatshirts?",
+    answer:
+      "The GO-TO Sweatshirt is an AS Colour Premium Hoodie — a 350 GSM heavyweight cotton blend with a relaxed fit, kangaroo pocket, and brushed fleece interior. The GAS Studio design is embroidered, not printed, for a premium finish.",
+  },
+  {
+    question: "What sizes do you offer?",
+    answer:
+      "Tees are available in S, M, L, XL, and 2XL (relaxed unisex fit). Sweatshirts run XS through 3XL. Beanies and socks are one size fits most. Check the size guide on any product page for detailed measurements.",
+  },
+  {
+    question: "What's the deal with the dots?",
+    answer:
+      "The GAS orange dot is our brand emblem. The single dot represents completion — start what you finish, execute with intention. The triple dot is a reminder that there's always more good to be done. You'll find one of these marks on every product in the Dot Collection.",
   },
   {
     question: "How do the posters ship?",
     answer:
-      "Each 18×24\" poster is printed on museum-quality matte paper and ships rolled in a protective cardboard tube to prevent any damage during transit.",
+      "Each 18×24\" poster is printed on museum-quality matte paper and ships rolled in a protective cardboard tube to prevent any damage during transit. Posters are part of the Country Collection (coming soon).",
   },
   {
     question: "What's your return policy?",
@@ -130,11 +150,6 @@ export const FAQ_ITEMS = [
       "Orders are printed and shipped within 3–7 business days. Most US orders arrive within 5–10 business days from the date you place your order. You'll receive a tracking number via email once your order ships.",
   },
   {
-    question: "What sizes do you offer?",
-    answer:
-      "T-shirts are available in S, M, L, XL, and 2XL. They're a relaxed unisex fit — check our size guide on any product page for detailed measurements.",
-  },
-  {
     question: "Where do you ship?",
     answer:
       "We currently ship within the United States only. International shipping is coming soon.",
@@ -142,11 +157,6 @@ export const FAQ_ITEMS = [
   {
     question: "Who is GAS Studio?",
     answer:
-      "GAS Studio (Good At Scale Studio) builds purpose-driven businesses powered by systems, automation, and AI. GAS Merch Lab is one of our live ventures — a creative outlet that combines our love of design, travel, and celebrating cultures from around the world. Learn more at goodatscale.studio.",
-  },
-  {
-    question: "Can I buy both the tee and poster for one country?",
-    answer:
-      "You can add both the tee and poster for any country to your cart and check out in a single order.",
+      "GAS Studio (Good At Scale Studio) builds purpose-driven businesses powered by systems, automation, and AI. GAS Merch Lab is one of our live ventures — a creative outlet that combines our love of design and celebrating cultures from around the world. Learn more at goodatscale.studio.",
   },
 ];

@@ -86,6 +86,8 @@ export async function POST(request: NextRequest) {
     // Stripe SDK v20+ moved shipping to collected_information.shipping_details
     const shippingDetails =
       fullSession.collected_information?.shipping_details ?? null;
+    const subtotalCents = fullSession.amount_subtotal || 0;
+    const taxCents = fullSession.total_details?.amount_tax || 0;
     const totalCents = fullSession.amount_total || session.amount_total || 0;
 
     // Build line items for storage
@@ -107,7 +109,8 @@ export async function POST(request: NextRequest) {
         customer_name: customerName,
         shipping_address: shippingDetails?.address || null,
         line_items: lineItemsForDb,
-        subtotal_cents: totalCents,
+        subtotal_cents: subtotalCents,
+        tax_cents: taxCents,
         shipping_cents: 0,
         total_cents: totalCents,
         currency: "usd",

@@ -81,6 +81,7 @@ export async function POST(request: NextRequest) {
       mode: "payment",
       payment_method_types: ["card"],
       line_items: lineItems,
+      automatic_tax: { enabled: true },
       shipping_address_collection: {
         allowed_countries: ["US"],
       },
