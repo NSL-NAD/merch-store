@@ -110,7 +110,6 @@ export async function POST(request: NextRequest) {
         shipping_address: shippingDetails?.address || null,
         line_items: lineItemsForDb,
         subtotal_cents: subtotalCents,
-        tax_cents: taxCents,
         shipping_cents: 0,
         total_cents: totalCents,
         currency: "usd",
