@@ -81,7 +81,9 @@ export async function POST(request: NextRequest) {
       mode: "payment",
       payment_method_types: ["card"],
       line_items: lineItems,
-      automatic_tax: { enabled: true },
+      // Note: automatic_tax is disabled. Prices are set inclusive of any applicable
+      // taxes. Revisit when WI tax obligations are confirmed and revenue justifies
+      // the added complexity of Stripe Tax.
       shipping_address_collection: {
         allowed_countries: ["US"],
       },
