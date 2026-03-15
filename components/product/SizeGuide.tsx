@@ -56,7 +56,7 @@ export default function SizeGuide() {
                 {/* Table */}
                 <div className="px-6 py-4">
                   <p className="font-mono text-xs text-text-muted mb-4">
-                    AS Colour Staple Faded Tee — Relaxed Unisex Fit
+                    Premium Faded Tee, Relaxed Unisex Fit
                   </p>
                   <table className="w-full">
                     <thead>

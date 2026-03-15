@@ -18,7 +18,7 @@ export default function DotPhilosophy() {
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
-          {/* Single Dot — Completion */}
+          {/* Single Dot - Completion */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ export default function DotPhilosophy() {
             transition={{ duration: 0.5 }}
             className="flex flex-col items-center text-center"
           >
-            {/* Dot visual — same height as triple dots row */}
+            {/* Dot visual - same height as triple dots row */}
             <div className="mb-8 flex items-center h-10">
               <div className="h-10 w-10 rounded-full bg-gas-orange" />
             </div>
@@ -39,12 +39,12 @@ export default function DotPhilosophy() {
             </p>
             <p className="font-body text-text-secondary leading-relaxed max-w-sm">
               Start what you finish. Execute with intention. The single dot is a
-              commitment to getting things done — a mindset of follow-through and
+              commitment to getting things done, a mindset of follow-through and
               purposeful action.
             </p>
           </motion.div>
 
-          {/* Triple Dot — More Work to Do */}
+          {/* Triple Dot - More Work to Do */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -67,7 +67,7 @@ export default function DotPhilosophy() {
             </p>
             <p className="font-body text-text-secondary leading-relaxed max-w-sm">
               There is always more good to be done. The triple dot represents a
-              recognition that the work is never finished — doing good at scale
+              recognition that the work is never finished. Doing good at scale
               means never settling and always pushing forward.
             </p>
           </motion.div>

@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     // Build Stripe line items
     const lineItems = items.map((item) => {
       const optionParts = [item.color, item.size].filter(Boolean);
-      const nameSuffix = optionParts.length > 0 ? ` — ${optionParts.join(" / ")}` : "";
+      const nameSuffix = optionParts.length > 0 ? `, ${optionParts.join(" / ")}` : "";
 
       // Stripe requires absolute URLs for product images
       let imageUrl: string | undefined;
@@ -84,6 +84,7 @@ export async function POST(request: NextRequest) {
       // Note: automatic_tax is disabled. Prices are set inclusive of any applicable
       // taxes. Revisit when WI tax obligations are confirmed and revenue justifies
       // the added complexity of Stripe Tax.
+      phone_number_collection: { enabled: true },
       shipping_address_collection: {
         allowed_countries: ["US"],
       },

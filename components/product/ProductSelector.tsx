@@ -21,7 +21,7 @@ export function ColorSelector({
   return (
     <div>
       <p className="font-mono text-xs uppercase tracking-widest text-text-muted mb-3">
-        Color{selectedColor ? ` — ${selectedColor}` : ""}
+        Color{selectedColor ? `, ${selectedColor}` : ""}
       </p>
       <div className="flex flex-wrap gap-2">
         {colors.map((color) => {

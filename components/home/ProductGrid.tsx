@@ -73,7 +73,7 @@ export default function ProductGrid({
             ))}
           </div>
 
-          {/* Sort — only show for shop tab */}
+          {/* Sort - only show for shop tab */}
           {tab === "shop" && (
             <select
               value={sort}

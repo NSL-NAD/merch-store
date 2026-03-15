@@ -78,7 +78,9 @@ export async function sendToProduction(orderId: string): Promise<void> {
     }
   );
 
-  if (!response.ok) {
+  // 400/409 typically means the order is already in production
+  // (e.g. Printify auto-submit is enabled) — treat as success.
+  if (!response.ok && response.status !== 400 && response.status !== 409) {
     const error = await response.text();
     throw new Error(
       `Printify send to production failed: ${response.status} ${error}`

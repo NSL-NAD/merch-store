@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { generateCrossSellHtml } from "./cross-sell";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -57,6 +58,8 @@ export async function sendOrderConfirmation({
         .filter(Boolean)
         .join("<br />")
     : "";
+
+  const crossSellHtml = generateCrossSellHtml();
 
   const html = `
 <!DOCTYPE html>
@@ -148,65 +151,19 @@ export async function sendOrderConfirmation({
           <tr>
             <td style="padding: 24px 16px; background-color: #111; border: 1px solid #222;">
               <p style="margin: 0; color: #ccc; font-size: 14px; line-height: 1.6;">
-                Your order will be printed and shipped within <strong style="color: #fff;">3–7 business days</strong>.
+                Your order will be printed and shipped within <strong style="color: #fff;">3-7 business days</strong>.
                 You'll receive another email with tracking info once it ships.
               </p>
             </td>
           </tr>
 
-          <!-- Cross-sell -->
-          <tr>
-            <td style="padding: 32px 0 0; border-top: 1px solid #222;">
-              <p style="margin: 0 0 16px; color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-family: monospace;">
-                More from the Dot Collection
-              </p>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="padding: 10px 0; border-bottom: 1px solid #1a1a1a;">
-                    <a href="https://merch.goodatscale.studio/products/gas-tee" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE EVERYDAY Tee
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$45</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0; border-bottom: 1px solid #1a1a1a;">
-                    <a href="https://merch.goodatscale.studio/products/gas-sweatshirt" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE GO-TO Hoodie
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$75</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0; border-bottom: 1px solid #1a1a1a;">
-                    <a href="https://merch.goodatscale.studio/products/gas-beanie" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE CAP Beanie
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$30</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0;">
-                    <a href="https://merch.goodatscale.studio/products/gas-socks" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE STEPS Socks
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$25</span>
-                  </td>
-                </tr>
-              </table>
-              <div style="padding-top: 16px;">
-                <a href="https://merch.goodatscale.studio/#products" style="color: #FF462E; font-size: 12px; text-decoration: none; font-family: monospace; text-transform: uppercase; letter-spacing: 0.1em;">
-                  Shop All &rarr;
-                </a>
-              </div>
-            </td>
-          </tr>
+          ${crossSellHtml}
 
           <!-- Footer -->
           <tr>
             <td style="padding: 32px 0 0; border-top: 1px solid #222; margin-top: 32px;">
               <p style="margin: 0; color: #666; font-size: 12px; line-height: 1.6;">
-                GAS Merch Lab — A GAS Studio Venture
+                GAS Merch Lab. A GAS Studio Venture
                 <br />
                 <a href="https://merch.goodatscale.studio" style="color: #FF462E; text-decoration: none;">merch.goodatscale.studio</a>
               </p>
@@ -226,17 +183,26 @@ export async function sendOrderConfirmation({
   await resend.emails.send({
     from: fromEmail,
     to: email,
-    subject: `Order Confirmed — GAS Merch Lab #${orderNumber}`,
+    subject: `Order Confirmed, GAS Merch Lab #${orderNumber}`,
     html,
   });
 
-  // Send internal copy to team (only if customer email differs)
-  if (email.toLowerCase() !== internalEmail.toLowerCase()) {
+  // Send internal "New Order" notification to team
+  // Delay slightly to avoid Resend rate limits (2 emails/sec on free tier)
+  try {
+    await new Promise((r) => setTimeout(r, 1500));
+
+    const recipients = [internalEmail];
+    // If customer email differs from internal, we already sent to customer above
+    // If customer IS internal, they got the customer copy — still send the internal-subject copy
     await resend.emails.send({
       from: fromEmail,
-      to: internalEmail,
-      subject: `[New Order] #${orderNumber} — ${name} — $${total.toFixed(2)}`,
+      to: recipients,
+      subject: `[New Order] #${orderNumber}, ${name}, $${total.toFixed(2)}`,
       html,
     });
+    console.log(`Internal order notification sent to ${internalEmail}`);
+  } catch (internalError) {
+    console.error("Internal order notification failed:", internalError);
   }
 }

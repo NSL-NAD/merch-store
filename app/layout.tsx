@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Albert_Sans, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/layout/Header";
@@ -21,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://shop.goodatscale.studio"),
   title: {
-    default: "GAS Merch Lab — 4 Designs. 1 Philosophy.",
+    default: "GAS Merch Lab | 12 Designs. 1 Philosophy.",
     template: "%s | GAS Merch Lab",
   },
   description:
@@ -49,6 +50,7 @@ export default function RootLayout({
           <Footer />
           <CartDrawer />
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );

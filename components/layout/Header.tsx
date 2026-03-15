@@ -25,7 +25,7 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop nav — absolutely centered in the header */}
+        {/* Desktop nav - absolutely centered in the header */}
         <nav className="hidden md:flex items-center gap-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link
             href="/#products"

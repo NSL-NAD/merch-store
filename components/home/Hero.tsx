@@ -13,7 +13,7 @@ export default function Hero() {
         >
           {/* Headline */}
           <h1 className="font-display uppercase leading-[0.85] tracking-tight text-[clamp(32px,11vw,207px)]">
-            <span className="whitespace-nowrap">4 Designs</span>
+            <span className="whitespace-nowrap">12 Designs</span>
             <br />
             <span className="whitespace-nowrap">1 Philosophy</span>
           </h1>

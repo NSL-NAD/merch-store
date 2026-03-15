@@ -3,29 +3,29 @@ import { COUNTRIES, TEE_PRICE, POSTER_PRICE, TEE_SIZES, GAS_PRODUCTS } from "../
 
 const DESIGN_STORIES: Record<string, string> = {
   mexico:
-    "Vibrant Day of the Dead imagery meets ancient Aztec geometry — a celebration of Mexico's rich cultural tapestry, from its bustling mercados to its sacred temples.",
+    "Vibrant Day of the Dead imagery meets ancient Aztec geometry, a celebration of Mexico's rich cultural tapestry, from its bustling mercados to its sacred temples.",
   japan:
-    "Cherry blossoms meet neon-lit streets — capturing the harmony between Japan's ancient traditions and its cutting-edge modernity, from Kyoto's temples to Tokyo's electric energy.",
+    "Cherry blossoms meet neon-lit streets, capturing the harmony between Japan's ancient traditions and its cutting-edge modernity, from Kyoto's temples to Tokyo's electric energy.",
   "new-zealand":
-    "Maori-inspired patterns intertwine with dramatic landscapes — from the volcanic peaks of Tongariro to the glowing caves of Waitomo, New Zealand's wild beauty comes alive.",
+    "Maori-inspired patterns intertwine with dramatic landscapes, from the volcanic peaks of Tongariro to the glowing caves of Waitomo, New Zealand's wild beauty comes alive.",
   "costa-rica":
-    "Tropical rainforest canopies, toucans, and volcanic coastlines — a love letter to Costa Rica's pura vida philosophy and its breathtaking biodiversity.",
+    "Tropical rainforest canopies, toucans, and volcanic coastlines, a love letter to Costa Rica's pura vida philosophy and its breathtaking biodiversity.",
   italy:
-    "Renaissance artistry meets la dolce vita — from the rolling hills of Tuscany to the ancient streets of Rome, Italy's timeless beauty is distilled into a single design.",
+    "Renaissance artistry meets la dolce vita, from the rolling hills of Tuscany to the ancient streets of Rome, Italy's timeless beauty is distilled into a single design.",
   spain:
-    "Flamenco passion meets Gaudí's mosaics — a fiery tribute to Spain's artistic spirit, from the plazas of Seville to the shores of Barcelona.",
+    "Flamenco passion meets Gaudi's mosaics, a fiery tribute to Spain's artistic spirit, from the plazas of Seville to the shores of Barcelona.",
   egypt:
-    "Pyramids rise from golden sands as hieroglyphics tell ancient stories — Egypt's 5,000-year legacy of wonder captured in bold, modern illustration.",
+    "Pyramids rise from golden sands as hieroglyphics tell ancient stories. Egypt's 5,000-year legacy of wonder captured in bold, modern illustration.",
   france:
-    "Parisian elegance meets provincial charm — lavender fields, iron lattice, and the unmistakable silhouette of a city that defined art, fashion, and cuisine.",
+    "Parisian elegance meets provincial charm, lavender fields, iron lattice, and the unmistakable silhouette of a city that defined art, fashion, and cuisine.",
   greece:
-    "Whitewashed walls and cobalt domes against the Aegean blue — Greece's mythic beauty, from the Parthenon to the sunlit islands of the Cyclades.",
+    "Whitewashed walls and cobalt domes against the Aegean blue. Greece's mythic beauty, from the Parthenon to the sunlit islands of the Cyclades.",
   colombia:
-    "Emerald mountains, cumbia rhythms, and streets bursting with color — Colombia's vibrant energy and warmth radiate from every element of this design.",
+    "Emerald mountains, cumbia rhythms, and streets bursting with color. Colombia's vibrant energy and warmth radiate from every element of this design.",
   croatia:
-    "Adriatic coastlines meet medieval stone walls — Croatia's stunning blend of Mediterranean beauty and old-world charm, from Dubrovnik to Plitvice's waterfalls.",
+    "Adriatic coastlines meet medieval stone walls. Croatia's stunning blend of Mediterranean beauty and old-world charm, from Dubrovnik to Plitvice's waterfalls.",
   morocco:
-    "Geometric zellige tiles, bustling souks, and the warm glow of desert sunsets — Morocco's sensory richness translated into a bold, intricate illustration.",
+    "Geometric zellige tiles, bustling souks, and the warm glow of desert sunsets. Morocco's sensory richness translated into a bold, intricate illustration.",
 };
 
 function createTeePlaceholder(countryName: string, region: string): string {
@@ -37,7 +37,7 @@ function createTeePlaceholder(countryName: string, region: string): string {
     <rect x="250" y="380" width="300" height="160" rx="2" fill="%23131313" stroke="%231e1e1e" stroke-width="1"/>
     <text x="400" y="435" font-family="monospace" font-size="11" fill="%23444444" text-anchor="middle" letter-spacing="6">COMING SOON</text>
     <text x="400" y="468" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23333333" text-anchor="middle">${encodeURIComponent(countryName.toUpperCase())}</text>
-    <text x="400" y="500" font-family="monospace" font-size="10" fill="%23292929" text-anchor="middle" letter-spacing="3">${encodeURIComponent(region.toUpperCase())} %E2%80%94 TEE</text>
+    <text x="400" y="500" font-family="monospace" font-size="10" fill="%23292929" text-anchor="middle" letter-spacing="3">${encodeURIComponent(region.toUpperCase())} - TEE</text>
     <circle cx="400" cy="530" r="4" fill="%23FF462E" opacity="0.6"/>
   </svg>`;
   return `data:image/svg+xml,${svg}`;
@@ -52,57 +52,99 @@ function createPosterPlaceholder(countryName: string, region: string): string {
     <rect x="250" y="430" width="300" height="160" rx="2" fill="%23131313" stroke="%231e1e1e" stroke-width="1"/>
     <text x="400" y="485" font-family="monospace" font-size="11" fill="%23444444" text-anchor="middle" letter-spacing="6">COMING SOON</text>
     <text x="400" y="518" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23333333" text-anchor="middle">${encodeURIComponent(countryName.toUpperCase())}</text>
-    <text x="400" y="550" font-family="monospace" font-size="10" fill="%23292929" text-anchor="middle" letter-spacing="3">${encodeURIComponent(region.toUpperCase())} %E2%80%94 POSTER</text>
+    <text x="400" y="550" font-family="monospace" font-size="10" fill="%23292929" text-anchor="middle" letter-spacing="3">${encodeURIComponent(region.toUpperCase())} - POSTER</text>
     <circle cx="400" cy="580" r="4" fill="%23FF462E" opacity="0.6"/>
   </svg>`;
   return `data:image/svg+xml,${svg}`;
 }
 
-// GAS Dot Collection — real product images
-// Image order: Brick (primary) → Concrete → Lifestyle
+// GAS Dot Collection - product images
+// Image order: Primary → Alternate → Lifestyle (context at end)
 import type { ShopifyImage } from "./types";
 
 const GAS_PRODUCT_IMAGES: Record<string, ShopifyImage[]> = {
   "gas-tee": [
-    // Brick backgrounds (primary)
-    { url: "/products/tee-black-brick.jpg", altText: "GAS Tee — Faded Black on brick", width: 1440, height: 1800 },
-    { url: "/products/tee-grey-brick.jpg", altText: "GAS Tee — Faded Dust on brick", width: 1440, height: 1800 },
-    { url: "/products/tee-green-brick.jpg", altText: "GAS Tee — Faded Army on brick", width: 1440, height: 1800 },
-    // Concrete backgrounds
-    { url: "/products/tee-black-concrete.jpg", altText: "GAS Tee — Faded Black on concrete", width: 1201, height: 1800 },
-    { url: "/products/tee-grey-concrete.jpg", altText: "GAS Tee — Faded Dust on concrete", width: 1201, height: 1800 },
-    { url: "/products/tee-green-concrete.jpg", altText: "GAS Tee — Faded Army on concrete", width: 1201, height: 1800 },
+    // Faded Black
+    { url: "/products/tee-black-brick.jpg", altText: "GAS Tee - Faded Black on brick", width: 1440, height: 1800 },
+    { url: "/products/tee-black-concrete.jpg", altText: "GAS Tee - Faded Black on concrete", width: 1201, height: 1800 },
+    // Faded Dust
+    { url: "/products/tee-grey-brick.jpg", altText: "GAS Tee - Faded Dust on brick", width: 1440, height: 1800 },
+    { url: "/products/tee-grey-concrete.jpg", altText: "GAS Tee - Faded Dust on concrete", width: 1201, height: 1800 },
+    // Faded Army
+    { url: "/products/tee-green-brick.jpg", altText: "GAS Tee - Faded Army on brick", width: 1440, height: 1800 },
+    { url: "/products/tee-green-concrete.jpg", altText: "GAS Tee - Faded Army on concrete", width: 1201, height: 1800 },
   ],
   "gas-sweatshirt": [
-    // Brick backgrounds (primary)
-    { url: "/products/hoodie-black-brick.jpg", altText: "GAS Hoodie — Black on brick", width: 1200, height: 1200 },
-    { url: "/products/hoodie-green-brick.jpg", altText: "GAS Hoodie — Cypress on brick", width: 1200, height: 1200 },
-    { url: "/products/hoodie-tan-brick.jpg", altText: "GAS Hoodie — Bone on brick", width: 1200, height: 1200 },
-    // Concrete backgrounds (folded)
-    { url: "/products/hoodie-black-concrete.jpg", altText: "GAS Hoodie — Black folded on concrete", width: 1200, height: 1200 },
-    { url: "/products/hoodie-green-concrete.jpg", altText: "GAS Hoodie — Cypress folded on concrete", width: 1200, height: 1200 },
-    { url: "/products/hoodie-tan-concrete.jpg", altText: "GAS Hoodie — Bone folded on concrete", width: 1200, height: 1200 },
-    // Lifestyle
-    { url: "/products/hoodie-black-lifestyle.jpg", altText: "GAS Hoodie — Black lifestyle", width: 1200, height: 1800 },
-    { url: "/products/hoodie-green-lifestyle.jpg", altText: "GAS Hoodie — Cypress lifestyle", width: 1200, height: 1800 },
-    { url: "/products/hoodie-tan-lifestyle.jpg", altText: "GAS Hoodie — Bone lifestyle", width: 1800, height: 1800 },
+    // Black
+    { url: "/products/hoodie-black.jpg", altText: "GAS Hoodie - Black", width: 1264, height: 848 },
+    { url: "/products/hoodie-black-002.jpg", altText: "GAS Hoodie - Black alternate", width: 1024, height: 1024 },
+    { url: "/products/hoodie-black-lifestyle.jpg", altText: "GAS Hoodie - Black lifestyle", width: 1200, height: 1800 },
+    // Cypress
+    { url: "/products/hoodie-green.jpg", altText: "GAS Hoodie - Cypress", width: 1024, height: 1024 },
+    { url: "/products/hoodie-green-002.jpg", altText: "GAS Hoodie - Cypress alternate", width: 1024, height: 1024 },
+    { url: "/products/hoodie-green-lifestyle.jpg", altText: "GAS Hoodie - Cypress lifestyle", width: 1200, height: 1800 },
+    // Bone
+    { url: "/products/hoodie-tan.jpg", altText: "GAS Hoodie - Bone", width: 1264, height: 848 },
+    { url: "/products/hoodie-tan-002.jpg", altText: "GAS Hoodie - Bone alternate", width: 1024, height: 1024 },
+    { url: "/products/hoodie-tan-lifestyle.jpg", altText: "GAS Hoodie - Bone lifestyle", width: 1800, height: 1800 },
   ],
   "gas-beanie": [
-    // Brick backgrounds (primary)
-    { url: "/products/beanie-black-brick.jpg", altText: "GAS Beanie — Black on brick", width: 1200, height: 1200 },
-    { url: "/products/beanie-green-brick.jpg", altText: "GAS Beanie — Army on brick", width: 1200, height: 1200 },
-    { url: "/products/beanie-grey-brick.jpg", altText: "GAS Beanie — Coal on brick", width: 1200, height: 1200 },
-    { url: "/products/beanie-tan-brick.jpg", altText: "GAS Beanie — Ecru on brick", width: 1200, height: 1200 },
-    { url: "/products/beanie-cypress-brick.jpg", altText: "GAS Beanie — Cypress on brick", width: 1200, height: 1200 },
-    { url: "/products/beanie-eucalyptus-brick.jpg", altText: "GAS Beanie — Eucalyptus on brick", width: 1200, height: 1200 },
-    // Concrete backgrounds
-    { url: "/products/beanie-black-concrete.jpg", altText: "GAS Beanie — Black on concrete", width: 1800, height: 1350 },
-    { url: "/products/beanie-green-concrete.jpg", altText: "GAS Beanie — Army on concrete", width: 1800, height: 1350 },
-    { url: "/products/beanie-grey-concrete.jpg", altText: "GAS Beanie — Coal on concrete", width: 1800, height: 1350 },
-    { url: "/products/beanie-tan-concrete.jpg", altText: "GAS Beanie — Ecru on concrete", width: 1800, height: 1350 },
+    { url: "/products/beanie-black.jpg", altText: "GAS Beanie - Black", width: 1264, height: 848 },
+    { url: "/products/beanie-army.jpg", altText: "GAS Beanie - Army", width: 1024, height: 1024 },
+    { url: "/products/beanie-coal.jpg", altText: "GAS Beanie - Coal", width: 1024, height: 1024 },
+    { url: "/products/beanie-cypress.jpg", altText: "GAS Beanie - Cypress", width: 1024, height: 1024 },
+    { url: "/products/beanie-ecru.jpg", altText: "GAS Beanie - Ecru", width: 1024, height: 1024 },
+    { url: "/products/beanie-eucalyptus.jpg", altText: "GAS Beanie - Eucalyptus", width: 1024, height: 1024 },
   ],
   "gas-socks": [
-    { url: "/products/socks-black-brick.jpg", altText: "GAS Socks — Black on brick", width: 1200, height: 1200 },
+    { url: "/products/socks.jpg", altText: "GAS Socks", width: 1024, height: 1024 },
+    { url: "/products/socks-pants.jpg", altText: "GAS Socks lifestyle", width: 1024, height: 1024 },
+  ],
+  "gas-baby-beanie": [
+    { url: "/products/baby-beanie.jpg", altText: "GAS Baby Beanie - Black", width: 1024, height: 1024 },
+  ],
+  "gas-jacket": [
+    // Charcoal (darkest first)
+    { url: "/products/jacket-charcoal.jpg", altText: "GAS Jacket - Charcoal", width: 1024, height: 1024 },
+    // Duck Brown
+    { url: "/products/jacket-brown.jpg", altText: "GAS Jacket - Duck Brown", width: 1024, height: 1024 },
+  ],
+  "gas-infant-tee": [
+    { url: "/products/infant-tee-black.jpg", altText: "GAS Infant Tee - Black", width: 1024, height: 1024 },
+    { url: "/products/infant-tee-blue.jpg", altText: "GAS Infant Tee - Light Blue", width: 1024, height: 1024 },
+    { url: "/products/infant-tee-charcoal.jpg", altText: "GAS Infant Tee - Charcoal", width: 1024, height: 1024 },
+    { url: "/products/infant-tee-natural.jpg", altText: "GAS Infant Tee - Natural Heather", width: 1024, height: 1024 },
+  ],
+  "gas-womens-tee": [
+    { url: "/products/womens-tee-black.jpg", altText: "GAS Womens Tee - Black", width: 1024, height: 1024 },
+    { url: "/products/womens-tee-army.jpg", altText: "GAS Womens Tee - Army", width: 1024, height: 1024 },
+    { url: "/products/womens-tee-asphalt.jpg", altText: "GAS Womens Tee - Asphalt", width: 1024, height: 1024 },
+    { url: "/products/womens-tee-blue.jpg", altText: "GAS Womens Tee - Baby Blue", width: 1024, height: 1024 },
+    { url: "/products/womens-tee-cream.jpg", altText: "GAS Womens Tee - Soft Cream", width: 1024, height: 1024 },
+  ],
+  "gas-journal": [
+    { url: "/products/journal-front.jpg", altText: "GAS Journal front", width: 1024, height: 1024 },
+    { url: "/products/journal-back.jpg", altText: "GAS Journal back", width: 1024, height: 1024 },
+    { url: "/products/journal-context.jpg", altText: "GAS Journal lifestyle", width: 1200, height: 1200 },
+    { url: "/products/journal-mockup-white.jpg", altText: "GAS Journal mockup", width: 1200, height: 1200 },
+  ],
+  "gas-mug": [
+    { url: "/products/mug-black.jpg", altText: "GAS Mug - Black", width: 1024, height: 1024 },
+    { url: "/products/mug-grey.jpg", altText: "GAS Mug - Dark Gray", width: 1024, height: 1024 },
+    { url: "/products/mug-teal.jpg", altText: "GAS Mug - Teal", width: 1024, height: 1024 },
+  ],
+  "gas-everyday-tee": [
+    { url: "/products/everyday-tee-black.jpg", altText: "GAS Everyday Tee - Black", width: 1264, height: 848 },
+    { url: "/products/everyday-tee-black-frost.jpg", altText: "GAS Everyday Tee - Black Frost", width: 1024, height: 1024 },
+    { url: "/products/everyday-tee-tan.jpg", altText: "GAS Everyday Tee - Desert Tan Heather", width: 1024, height: 1024 },
+    { url: "/products/everyday-tee-grey.jpg", altText: "GAS Everyday Tee - Grey Frost", width: 1024, height: 1024 },
+    { url: "/products/everyday-tee-green.jpg", altText: "GAS Everyday Tee - Military Green Frost", width: 1024, height: 1024 },
+    { url: "/products/everyday-tee-brown.jpg", altText: "GAS Everyday Tee - Coyote Brown Heather", width: 1024, height: 1024 },
+  ],
+  "gas-tote": [
+    // Black first
+    { url: "/products/tote-black.jpg", altText: "GAS Tote - Black", width: 1024, height: 1024 },
+    { url: "/products/tote-natural.jpg", altText: "GAS Tote - Natural", width: 1024, height: 1024 },
   ],
 };
 
@@ -189,7 +231,7 @@ function createMockTee(
     images: [
       {
         url: createTeePlaceholder(country.name, country.region),
-        altText: `${country.name} Tee — Front View`,
+        altText: `${country.name} Tee - Front View`,
         width: 800,
         height: 1000,
       },
@@ -225,7 +267,7 @@ function createMockPoster(
     images: [
       {
         url: createPosterPlaceholder(country.name, country.region),
-        altText: `${country.name} Poster — 18×24 Museum-Quality Print`,
+        altText: `${country.name} Poster - 18x24 Museum-Quality Print`,
         width: 800,
         height: 1067,
       },

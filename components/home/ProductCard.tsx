@@ -13,7 +13,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const isTee =
-    product.tags.includes("tee") || product.tags.includes("t-shirt");
+    product.tags.includes("tee") || product.tags.includes("t-shirt") || product.tags.includes("everyday-tee");
   const isPoster = product.tags.includes("poster");
   const productType = isTee
     ? "TEE"
@@ -21,7 +21,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       ? "POSTER"
       : product.tags.find(
           (t) =>
-            t === "sweatshirt" || t === "beanie" || t === "socks"
+            ["sweatshirt", "beanie", "socks", "jacket", "journal", "mug", "bag"].includes(t)
         )?.toUpperCase() || "APPAREL";
   const price = product.priceRange.minVariantPrice;
   const image = product.images[0];
@@ -37,7 +37,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   // Extract display name from product title (strips type suffix)
   const displayName = product.title
-    .replace(/ (Tee|Poster|Sweatshirt|Beanie|Socks)$/i, "")
+    .replace(/ (Tee|Poster|Sweatshirt|Beanie|Socks|Jacket|Journal|Mug|Tote)$/i, "")
     .trim();
 
   const cardContent = (
@@ -76,7 +76,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         </div>
       </div>
 
-      {/* Badge — collection name */}
+      {/* Badge - collection name */}
       <div className="px-4 pb-1">
         <Badge>{collectionLabel}</Badge>
       </div>

@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { generateCrossSellHtml } from "./cross-sell";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -9,6 +10,8 @@ interface ShippingNotificationParams {
   trackingNumber: string | null;
   trackingUrl: string | null;
   carrier: string | null;
+  packageNumber?: number;
+  totalPackages?: number;
 }
 
 export async function sendShippingNotification({
@@ -18,15 +21,28 @@ export async function sendShippingNotification({
   trackingNumber,
   trackingUrl,
   carrier,
+  packageNumber,
+  totalPackages,
 }: ShippingNotificationParams) {
   const orderNumber = orderId.slice(0, 8).toUpperCase();
   const firstName = name.split(" ")[0] || "there";
+  const hasMultiplePackages =
+    packageNumber !== undefined && totalPackages !== undefined;
+
+  const packageLabel = hasMultiplePackages
+    ? ` (Package ${packageNumber} of ${totalPackages})`
+    : "";
 
   const trackingSection = trackingNumber
     ? `
           <tr>
             <td style="padding: 24px 16px; background-color: #111; border: 1px solid #222;">
-              <span style="color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-family: monospace;">Tracking${carrier ? ` — ${carrier}` : ""}</span>
+              ${
+                hasMultiplePackages
+                  ? `<span style="color: #fff; font-size: 12px; font-weight: 700; font-family: monospace; display: block; margin-bottom: 8px;">Package ${packageNumber} of ${totalPackages}</span>`
+                  : ""
+              }
+              <span style="color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-family: monospace;">Tracking${carrier ? `, ${carrier}` : ""}</span>
               <br />
               ${
                 trackingUrl
@@ -36,6 +52,8 @@ export async function sendShippingNotification({
             </td>
           </tr>`
     : "";
+
+  const crossSellHtml = generateCrossSellHtml();
 
   const html = `
 <!DOCTYPE html>
@@ -61,10 +79,10 @@ export async function sendShippingNotification({
           <tr>
             <td style="padding: 32px 0 24px;">
               <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700;">
-                Your Order Has Shipped!
+                Your Order Has Shipped!${packageLabel}
               </h1>
               <p style="margin: 12px 0 0; color: #999; font-size: 14px; line-height: 1.6;">
-                Hey ${firstName}, great news — your order <strong style="color: #FF462E;">#${orderNumber}</strong> is on its way.
+                Hey ${firstName}, great news, your order <strong style="color: #FF462E;">#${orderNumber}</strong> is on its way.
               </p>
             </td>
           </tr>
@@ -75,65 +93,19 @@ export async function sendShippingNotification({
           <tr>
             <td style="padding: 24px 0;">
               <p style="margin: 0; color: #ccc; font-size: 14px; line-height: 1.6;">
-                Most US orders arrive within <strong style="color: #fff;">5–10 business days</strong> from the ship date.
+                Most US orders arrive within <strong style="color: #fff;">5-10 business days</strong> from the ship date.
                 ${trackingUrl ? `<a href="${trackingUrl}" style="color: #FF462E; text-decoration: none;">Track your package &rarr;</a>` : ""}
               </p>
             </td>
           </tr>
 
-          <!-- Cross-sell -->
-          <tr>
-            <td style="padding: 32px 0 0; border-top: 1px solid #222;">
-              <p style="margin: 0 0 16px; color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-family: monospace;">
-                More from the Dot Collection
-              </p>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="padding: 10px 0; border-bottom: 1px solid #1a1a1a;">
-                    <a href="https://merch.goodatscale.studio/products/gas-tee" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE EVERYDAY Tee
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$45</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0; border-bottom: 1px solid #1a1a1a;">
-                    <a href="https://merch.goodatscale.studio/products/gas-sweatshirt" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE GO-TO Hoodie
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$75</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0; border-bottom: 1px solid #1a1a1a;">
-                    <a href="https://merch.goodatscale.studio/products/gas-beanie" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE CAP Beanie
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$30</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0;">
-                    <a href="https://merch.goodatscale.studio/products/gas-socks" style="color: #ccc; text-decoration: none; font-size: 14px;">
-                      THE STEPS Socks
-                    </a>
-                    <span style="color: #666; font-size: 13px; float: right;">$25</span>
-                  </td>
-                </tr>
-              </table>
-              <div style="padding-top: 16px;">
-                <a href="https://merch.goodatscale.studio/#products" style="color: #FF462E; font-size: 12px; text-decoration: none; font-family: monospace; text-transform: uppercase; letter-spacing: 0.1em;">
-                  Shop All &rarr;
-                </a>
-              </div>
-            </td>
-          </tr>
+          ${crossSellHtml}
 
           <!-- Footer -->
           <tr>
             <td style="padding: 32px 0 0; border-top: 1px solid #222;">
               <p style="margin: 0; color: #666; font-size: 12px; line-height: 1.6;">
-                GAS Merch Lab — A GAS Studio Venture
+                GAS Merch Lab. A GAS Studio Venture
                 <br />
                 <a href="https://merch.goodatscale.studio" style="color: #FF462E; text-decoration: none;">merch.goodatscale.studio</a>
               </p>
@@ -146,10 +118,14 @@ export async function sendShippingNotification({
 </body>
 </html>`;
 
+  const subjectPackageLabel = hasMultiplePackages
+    ? ` (Package ${packageNumber} of ${totalPackages})`
+    : "";
+
   await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL || "merch@goodatscale.co",
     to: email,
-    subject: `Your Order Has Shipped — GAS Merch Lab #${orderNumber}`,
+    subject: `Your Order Has Shipped${subjectPackageLabel}, GAS Merch Lab #${orderNumber}`,
     html,
   });
 }

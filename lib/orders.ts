@@ -15,6 +15,13 @@ export interface OrderLineItem {
   size: string;
 }
 
+export interface ShipmentInfo {
+  trackingNumber: string | null;
+  trackingUrl: string | null;
+  carrier: string | null;
+  createdAt: string;
+}
+
 export interface OrderLookupResult {
   orderNumber: string;
   status: OrderStatus;
@@ -32,6 +39,7 @@ export interface OrderLookupResult {
   trackingNumber: string | null;
   trackingUrl: string | null;
   carrier: string | null;
+  shipments: ShipmentInfo[];
   createdAt: string;
 }
 

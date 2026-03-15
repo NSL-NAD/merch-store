@@ -1,7 +1,7 @@
 const stats = [
   {
     label: "Collection:",
-    lines: ["The Dot Collection", "4 Essentials"],
+    lines: ["The Dot Collection", "12 Essentials"],
   },
   {
     label: "Design:",
@@ -39,7 +39,7 @@ export default function StatsBar() {
             </div>
           ))}
 
-          {/* 4th column — description + CTA */}
+          {/* 4th column - description + CTA */}
           <div className="py-6 flex flex-col justify-between">
             <div className="mb-auto">
               <p className="font-mono text-xs uppercase tracking-wider text-text-secondary leading-relaxed">

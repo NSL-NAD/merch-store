@@ -5,7 +5,7 @@ import { FAQ_ITEMS } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Frequently asked questions about GAS Merch Lab — shipping, sizing, returns, and more.",
+    "Frequently asked questions about GAS Merch Lab, shipping, sizing, returns, and more.",
 };
 
 export default function FAQPage() {

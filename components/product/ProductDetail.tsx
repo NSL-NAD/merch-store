@@ -17,15 +17,24 @@ interface ProductDetailProps {
 
 const PRODUCT_DETAILS: Record<string, string[]> = {
   tee: [
-    "AS Colour Staple Faded Tee blank — 100% combed cotton",
+    "100% combed cotton",
     "Relaxed unisex fit",
-    "Printed design — DTG (direct-to-garment) full-back print",
+    "Printed design, DTG (direct-to-garment) full-back print",
     "DTG front left-chest accent",
     "GAS Studio orange dot emblem",
     "Pre-shrunk, side-seamed",
   ],
+  "everyday-tee": [
+    "Tri-blend: 50% polyester, 25% combed ring-spun cotton, 25% rayon",
+    "Lightweight 4.5 oz fabric, ultra-soft feel",
+    "Relaxed unisex fit",
+    "Printed design, DTG (direct-to-garment) full-back print",
+    "DTG front left-chest accent",
+    "GAS Studio orange dot emblem",
+    "Tear-away label, shoulder-to-shoulder taping",
+  ],
   sweatshirt: [
-    "AS Colour Premium Hoodie — 350 GSM heavyweight cotton blend",
+    "350 GSM heavyweight cotton blend",
     "Relaxed unisex fit with kangaroo pocket",
     "Embroidered GAS Studio design",
     "GAS Studio orange dot emblem",
@@ -33,7 +42,7 @@ const PRODUCT_DETAILS: Record<string, string[]> = {
     "Brushed fleece interior",
   ],
   beanie: [
-    "AS Colour Cuff Beanie — 100% acrylic knit",
+    "100% acrylic knit",
     "One size fits most",
     "Embroidered GAS Studio orange dot emblem",
     "Cuffed design with ribbed texture",
@@ -45,6 +54,33 @@ const PRODUCT_DETAILS: Record<string, string[]> = {
     "Reinforced toe and heel",
     "Comfortable elastic band",
   ],
+  jacket: [
+    "Duck Cloth Work Jacket",
+    "12 oz. 100% cotton duck cloth",
+    "Quilted lining for warmth",
+    "Embroidered GAS Studio design",
+    "Corduroy collar, brass-finish hardware",
+    "Interior and exterior pockets",
+  ],
+  journal: [
+    '5.75" x 8" softcover ruled journal',
+    "100 pages (50 sheets), ruled line",
+    "GAS triple dot on front, single dot on back",
+    "Matte laminated cover",
+    "Lay-flat binding",
+  ],
+  mug: [
+    "15oz ceramic mug",
+    "Printed GAS Studio design, wrap-around print",
+    "Microwave and dishwasher safe",
+    "C-handle, glossy finish",
+  ],
+  bag: [
+    "100% cotton canvas tote bag",
+    '15" x 16" with reinforced handles',
+    "Printed GAS Studio design",
+    "Flat bottom for easy packing",
+  ],
   poster: [
     '18×24" museum-quality matte paper',
     "Vivid, long-lasting color reproduction",
@@ -54,12 +90,12 @@ const PRODUCT_DETAILS: Record<string, string[]> = {
 };
 
 // Product types that have care instructions (wearable items)
-const WEARABLE_TYPES = ["tee", "sweatshirt", "beanie", "socks"];
+const WEARABLE_TYPES = ["tee", "everyday-tee", "sweatshirt", "beanie", "socks", "jacket"];
 // Product types that require size selection
-const SIZED_TYPES = ["tee", "sweatshirt"];
+const SIZED_TYPES = ["tee", "everyday-tee", "sweatshirt", "jacket"];
 
 const SHIPPING_INFO = [
-  "Printed and shipped within 3–7 business days",
+  "Printed and shipped within 3-7 business days",
   "US shipping only (launch market)",
   "Tracking number provided via email",
 ];
@@ -74,7 +110,7 @@ const CARE_INSTRUCTIONS = [
 function getProductType(tags: string[]): string {
   return (
     tags.find((t) =>
-      ["tee", "sweatshirt", "beanie", "socks", "poster"].includes(t)
+      ["tee", "everyday-tee", "sweatshirt", "beanie", "socks", "jacket", "journal", "mug", "bag", "poster"].includes(t)
     ) || "product"
   );
 }
@@ -181,13 +217,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       return null;
     });
 
-  // Map color names to the index of their first "brick" image
+  // Map color names to the index of their first (primary) image
   const colorImageIndex = useMemo(() => {
     const map: Record<string, number> = {};
     for (const color of availableColors) {
       const idx = product.images.findIndex(
-        (img) =>
-          img.altText?.includes(color) && img.altText?.includes("brick")
+        (img) => img.altText?.includes(color)
       );
       if (idx !== -1) map[color] = idx;
     }
@@ -204,7 +239,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     (color: string) => {
       setSelectedColor(color);
 
-      // Jump to brick image for this color
+      // Jump to primary image for this color
       if (colorImageIndex[color] !== undefined) {
         setActiveImageIndex(colorImageIndex[color]);
       }
@@ -226,7 +261,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   );
 
   const displayName = product.title
-    .replace(/ (Tee|Poster|Sweatshirt|Beanie|Socks)$/i, "")
+    .replace(/ (Tee|Poster|Sweatshirt|Beanie|Socks|Jacket|Journal|Mug|Tote)$/i, "")
     .trim();
 
   const designStory =

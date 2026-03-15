@@ -229,29 +229,39 @@ export default function OrderLookup() {
           </div>
         )}
 
-        {/* Tracking */}
-        {order.trackingNumber && (
-          <div className="p-6 border border-border-default bg-bg-secondary">
-            <div className="flex items-center gap-2 mb-3">
-              <Truck size={16} className="text-gas-orange" />
-              <p className="font-mono text-[10px] uppercase tracking-widest text-gas-orange">
-                Tracking{order.carrier ? ` \u2014 ${order.carrier}` : ""}
-              </p>
-            </div>
-            {order.trackingUrl ? (
-              <a
-                href={order.trackingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-sm text-gas-orange hover:text-gas-orange-hover transition-colors"
+        {/* Tracking — show all shipments */}
+        {order.shipments && order.shipments.length > 0 && (
+          <div className="space-y-3">
+            {order.shipments.map((shipment, idx) => (
+              <div
+                key={shipment.trackingNumber || idx}
+                className="p-6 border border-border-default bg-bg-secondary"
               >
-                {order.trackingNumber} &rarr;
-              </a>
-            ) : (
-              <p className="font-mono text-sm text-text-secondary">
-                {order.trackingNumber}
-              </p>
-            )}
+                <div className="flex items-center gap-2 mb-3">
+                  <Truck size={16} className="text-gas-orange" />
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-gas-orange">
+                    {order.shipments.length > 1
+                      ? `Package ${idx + 1} of ${order.shipments.length}`
+                      : "Tracking"}
+                    {shipment.carrier ? `, ${shipment.carrier}` : ""}
+                  </p>
+                </div>
+                {shipment.trackingUrl ? (
+                  <a
+                    href={shipment.trackingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-sm text-gas-orange hover:text-gas-orange-hover transition-colors"
+                  >
+                    {shipment.trackingNumber} &rarr;
+                  </a>
+                ) : (
+                  <p className="font-mono text-sm text-text-secondary">
+                    {shipment.trackingNumber}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

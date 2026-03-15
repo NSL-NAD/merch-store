@@ -4,6 +4,13 @@ import { sendShippingNotification } from "@/lib/emails/shipping-notification";
 
 export const runtime = "nodejs";
 
+interface StoredShipment {
+  tracking_number: string | null;
+  tracking_url: string | null;
+  carrier: string | null;
+  created_at: string;
+}
+
 export async function POST(request: NextRequest) {
   // Verify webhook secret via query param
   const { searchParams } = new URL(request.url);
@@ -23,10 +30,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true });
     }
 
-    const shipment = shipments[shipments.length - 1];
-    const trackingNumber = shipment.tracking_number || null;
-    const trackingUrl = shipment.tracking_url || null;
-    const carrier = shipment.carrier || null;
+    // Get the newest shipment from the payload (last in the array)
+    // Printify webhook may use `tracking_number`/`tracking_url` or `number`/`url`
+    const latestShipment = shipments[shipments.length - 1];
+    const trackingNumber =
+      latestShipment.tracking_number || latestShipment.number || null;
+    const trackingUrl =
+      latestShipment.tracking_url || latestShipment.url || null;
+    const carrier = latestShipment.carrier || null;
 
     // Find the order in Supabase
     const { data: order } = await getSupabase()
@@ -42,7 +53,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true });
     }
 
-    // Update order with tracking info
+    // Build the full shipments array — deduplicate by tracking number
+    const existingShipments: StoredShipment[] = Array.isArray(order.shipments)
+      ? order.shipments
+      : [];
+    const existingTrackingNumbers = new Set(
+      existingShipments.map((s: StoredShipment) => s.tracking_number)
+    );
+
+    const newShipments: StoredShipment[] = [];
+    for (const s of shipments) {
+      const tn = s.tracking_number || s.number || null;
+      if (!existingTrackingNumbers.has(tn)) {
+        newShipments.push({
+          tracking_number: tn,
+          tracking_url: s.tracking_url || s.url || null,
+          carrier: s.carrier || null,
+          created_at: s.shipped_at || new Date().toISOString(),
+        });
+      }
+    }
+
+    const allShipments = [...existingShipments, ...newShipments];
+
+    // Update order with all shipments + latest scalar tracking fields
     await getSupabase()
       .from("orders")
       .update({
@@ -50,21 +84,40 @@ export async function POST(request: NextRequest) {
         tracking_number: trackingNumber,
         tracking_url: trackingUrl,
         carrier,
+        shipments: allShipments,
       })
       .eq("id", order.id);
 
-    // Send shipping notification email
-    try {
-      await sendShippingNotification({
-        email: order.customer_email,
-        name: order.customer_name,
-        orderId: order.id,
-        trackingNumber,
-        trackingUrl,
-        carrier,
-      });
-    } catch (emailError) {
-      console.error("Shipping notification email failed:", emailError);
+    // Send shipping notification for each NEW shipment
+    const totalPackages = allShipments.length;
+    for (const newShipment of newShipments) {
+      const packageNumber =
+        allShipments.findIndex(
+          (s) => s.tracking_number === newShipment.tracking_number
+        ) + 1;
+
+      try {
+        await sendShippingNotification({
+          email: order.customer_email,
+          name: order.customer_name,
+          orderId: order.id,
+          trackingNumber: newShipment.tracking_number,
+          trackingUrl: newShipment.tracking_url,
+          carrier: newShipment.carrier,
+          packageNumber: totalPackages > 1 ? packageNumber : undefined,
+          totalPackages: totalPackages > 1 ? totalPackages : undefined,
+        });
+      } catch (emailError) {
+        console.error(
+          `Shipping notification email failed for package ${packageNumber}:`,
+          emailError
+        );
+      }
+
+      // Small delay between emails to avoid Resend rate limits
+      if (newShipments.length > 1) {
+        await new Promise((r) => setTimeout(r, 1500));
+      }
     }
   }
 

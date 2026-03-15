@@ -1,21 +1,20 @@
-import Link from "next/link";
+"use client";
+
+import { MARQUEE_TEXT } from "@/lib/constants";
 
 export default function Marquee() {
+  // Repeat text enough times to fill the screen during animation
+  const repeated = Array(4).fill(MARQUEE_TEXT).join("");
+
   return (
-    <div className="bg-marquee-bg overflow-hidden py-4">
-      <div className="flex flex-col items-center gap-1 text-center">
-        <p className="font-mono text-xs font-bold uppercase tracking-widest text-marquee-text">
-          Wearable art driven by purpose.
-        </p>
-        <p className="font-mono text-xs font-bold uppercase tracking-widest text-marquee-text">
-          Every dot means something.
-        </p>
-        <Link
-          href="#products"
-          className="font-mono text-[10px] uppercase tracking-widest text-gas-orange hover:text-gas-orange-hover transition-colors mt-1"
-        >
-          Shop All &rarr;
-        </Link>
+    <div className="bg-marquee-bg overflow-hidden py-3">
+      <div className="flex animate-marquee whitespace-nowrap">
+        <span className="font-mono text-xs font-bold uppercase tracking-widest text-marquee-text">
+          {repeated}
+        </span>
+        <span className="font-mono text-xs font-bold uppercase tracking-widest text-marquee-text">
+          {repeated}
+        </span>
       </div>
     </div>
   );

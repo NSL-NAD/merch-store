@@ -33,7 +33,7 @@ export default function OrderConfirmedPage() {
 
         {/* Info */}
         <p className="font-body text-text-secondary leading-relaxed mb-2">
-          Your order is being prepared and will ship within 3–7 business days.
+          Your order is being prepared and will ship within 3-7 business days.
         </p>
         <p className="font-body text-sm text-text-muted mb-8">
           You&apos;ll receive a confirmation email with tracking details once your

@@ -86,6 +86,8 @@ export async function POST(request: NextRequest) {
     // Stripe SDK v20+ moved shipping to collected_information.shipping_details
     const shippingDetails =
       fullSession.collected_information?.shipping_details ?? null;
+    const customerPhone =
+      fullSession.customer_details?.phone || "";
     const subtotalCents = fullSession.amount_subtotal || 0;
     const taxCents = fullSession.total_details?.amount_tax || 0;
     const totalCents = fullSession.amount_total || session.amount_total || 0;
@@ -105,7 +107,7 @@ export async function POST(request: NextRequest) {
         stripe_session_id: session.id,
         stripe_payment_intent_id: session.payment_intent as string,
         status: "paid",
-        customer_email: customerEmail,
+        customer_email: customerEmail.toLowerCase(),
         customer_name: customerName,
         shipping_address: shippingDetails?.address || null,
         line_items: lineItemsForDb,
@@ -158,6 +160,7 @@ export async function POST(request: NextRequest) {
             first_name: firstName,
             last_name: lastName,
             email: customerEmail,
+            phone: customerPhone || undefined,
             address1: shippingAddr?.line1 || "",
             address2: shippingAddr?.line2 || undefined,
             city: shippingAddr?.city || "",
@@ -167,10 +170,9 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        // Send to production
-        await sendToProduction(printifyOrder.id);
-
-        // Update order with Printify ID
+        // Save Printify order ID and set status immediately.
+        // The order exists in Printify at this point (and may already be
+        // auto-submitted to production), so "sent_to_production" is correct.
         await getSupabase()
           .from("orders")
           .update({
@@ -178,11 +180,22 @@ export async function POST(request: NextRequest) {
             status: "sent_to_production",
           })
           .eq("id", order.id);
+
+        // Best-effort: explicitly send to production.
+        // If Printify already auto-submitted, this is a no-op (400/409).
+        try {
+          await sendToProduction(printifyOrder.id);
+        } catch (prodError) {
+          console.warn(
+            "sendToProduction failed (order may already be in production):",
+            prodError
+          );
+        }
       }
     } catch (printifyError) {
       console.error("Printify order creation failed:", printifyError);
 
-      // Mark order as needing manual attention
+      // Only set failed status if the order was never created in Printify.
       await getSupabase()
         .from("orders")
         .update({ status: "paid_printify_failed" })

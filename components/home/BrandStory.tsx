@@ -7,7 +7,7 @@ import type { CollectionTab } from "./CollectionSection";
 const dotCollectionPillars = [
   {
     label: "Philosophy",
-    text: "The dot is the most fundamental mark in design — a point of origin, a statement of completion, a signal that there\u2019s more to come.",
+    text: "The dot is the most fundamental mark in design, a point of origin, a statement of completion, a signal that there\u2019s more to come.",
   },
   {
     label: "The Single Dot",
@@ -54,7 +54,7 @@ export default function BrandStory({ tab }: BrandStoryProps) {
             transition={{ duration: 0.3 }}
             className="grid md:grid-cols-2 gap-12 md:gap-16"
           >
-            {/* Left — pillars */}
+            {/* Left - pillars */}
             <div className="space-y-8">
               {pillars.map((pillar, i) => (
                 <motion.div
@@ -73,7 +73,7 @@ export default function BrandStory({ tab }: BrandStoryProps) {
               ))}
             </div>
 
-            {/* Right — narrative */}
+            {/* Right - narrative */}
             <div>
               <h2 className="font-display text-3xl sm:text-4xl uppercase tracking-tight mb-6">
                 {isDotCollection ? "Every Dot Means Something" : "Wear the World"}
@@ -83,14 +83,14 @@ export default function BrandStory({ tab }: BrandStoryProps) {
                   <>
                     <p>
                       The Dot Collection is the foundation of GAS Merch Lab.
-                      Each piece carries one of two marks — the single dot or
-                      the triple dot — representing the two sides of execution:
+                      Each piece carries one of two marks, the single dot or
+                      the triple dot, representing the two sides of execution:
                       finishing what you start, and knowing there&apos;s always
                       more to do.
                     </p>
                     <p>
                       Premium blanks. Minimal design. Maximum intent. This isn&apos;t
-                      branding for branding&apos;s sake — it&apos;s a quiet signal
+                      branding for branding&apos;s sake, it&apos;s a quiet signal
                       that you believe in doing good work, at scale.
                     </p>
                   </>
@@ -100,11 +100,11 @@ export default function BrandStory({ tab }: BrandStoryProps) {
                       GAS Merch Lab was born from a simple idea: the places and
                       cultures that shape us deserve to be worn, displayed, and
                       shared. Each design in our launch collection captures the
-                      essence of a country — its people, traditions, landscape,
-                      and spirit — through bold, illustrative art.
+                      essence of a country, its people, traditions, landscape,
+                      and spirit, through bold, illustrative art.
                     </p>
                     <p>
-                      Every tee is printed on premium AS Colour Staple Faded Tee
+                      Every tee is printed on premium faded tee
                       blanks, and every poster is produced on museum-quality
                       matte paper. We don&apos;t do fast fashion or disposable
                       art. We do pieces that mean something.
